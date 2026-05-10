@@ -207,8 +207,8 @@ const withHabitWidgetProjectGradle = (config) =>
     // SDK 55 / RN 0.83.6 ships Kotlin 2.1.20. The Compose compiler plugin
     // version must match the Kotlin version exactly. We hardcode it because
     // Expo no longer exposes a `kotlinVersion` ext property in SDK 55+.
-    const KOTLIN_VERSION = "2.1.20";
-    const classpathLine = `        ${marker}\n        classpath("org.jetbrains.kotlin:kotlin-compose-compiler-gradle-plugin:${KOTLIN_VERSION}")\n`;
+    const KOTLIN_VERSION = "2.0.21";
+const classpathLine = `        ${marker}\n        classpath("org.jetbrains.kotlin:compose-compiler-gradle-plugin:${KOTLIN_VERSION}")\n`;
 
     const contents = config.modResults.contents;
     const buildscriptIdx = contents.indexOf("buildscript {");
