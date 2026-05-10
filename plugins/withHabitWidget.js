@@ -198,16 +198,18 @@ const withHabitWidgetAppGradle = (config) =>
     return config;
   });
 
-// ---- 5. Ensure Compose compiler plugin is enabled at the project level ----
+// ---- 5. Ensure Compose compiler plugin is on the buildscript classpath ----
 const withHabitWidgetProjectGradle = (config) =>
   withProjectBuildGradle(config, (config) => {
     const marker = "// HABIT_WIDGET_COMPOSE_PLUGIN";
     if (config.modResults.contents.includes(marker)) return config;
 
-    // The classpath block sits inside buildscript { dependencies { ... } }.
-    const classpathLine = `        ${marker}\n        classpath("org.jetbrains.kotlin:kotlin-compose-compiler-gradle-plugin:\${kotlinVersion}")\n`;
+    // SDK 55 / RN 0.83.6 ships Kotlin 2.1.20. The Compose compiler plugin
+    // version must match the Kotlin version exactly. We hardcode it because
+    // Expo no longer exposes a `kotlinVersion` ext property in SDK 55+.
+    const KOTLIN_VERSION = "2.1.20";
+    const classpathLine = `        ${marker}\n        classpath("org.jetbrains.kotlin:kotlin-compose-compiler-gradle-plugin:${KOTLIN_VERSION}")\n`;
 
-    // Insert immediately after the existing "classpath" lines in buildscript.
     const contents = config.modResults.contents;
     const buildscriptIdx = contents.indexOf("buildscript {");
     if (buildscriptIdx === -1) return config;
@@ -215,7 +217,6 @@ const withHabitWidgetProjectGradle = (config) =>
     const depsIdx = contents.indexOf("dependencies {", buildscriptIdx);
     if (depsIdx === -1) return config;
 
-    // Find the closing brace of buildscript's dependencies block
     let depth = 0;
     let i = contents.indexOf("{", depsIdx);
     let endIdx = -1;
