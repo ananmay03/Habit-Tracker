@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  res/xml/habit_widget_info.xml
+  Tells Android the widget's size, refresh policy, and which screen previews it.
+  - minWidth/minHeight: minimum size on the home screen (in dp)
+  - targetCellWidth/Height: preferred cells on Android 12+ launchers
+  - resizeMode="horizontal|vertical": user can resize in both directions
+  - updatePeriodMillis="0": we update via broadcasts, never via the system poll
+                            (the system minimum is 30 minutes anyway)
+  - configure: omitted because we don't have a config activity
+-->
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
+    android:minResizeWidth="250dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="600dp"
+    android:maxResizeHeight="600dp"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/glance_default_loading_layout"
+    android:widgetCategory="home_screen"
+    android:previewLayout="@layout/glance_default_loading_layout"
+    android:description="@string/habit_widget_description" />
